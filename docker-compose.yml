@@ -1,0 +1,41 @@
+version: '3.8'
+
+services:
+  match-api:
+    image: match-api:latest
+    environment:
+      POSTGRES_DB: matchdb
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+    ports:
+      - "8080:8080"
+    depends_on:
+     - postgres
+
+
+  postgres:
+    image: postgres:15.2
+    volumes:
+      - postgres-data-match:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: matchdb
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+    ports:
+      - 5432:5432
+
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:-localadmin@dpyl.gr}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:-localadmin}
+    volumes:
+      - pgadmin-data-match:/var/lib/pgadmin
+    ports:
+      - 5050:80
+
+volumes:
+  postgres-data-match:
+    driver: local
+  pgadmin-data-match:
+    driver: local

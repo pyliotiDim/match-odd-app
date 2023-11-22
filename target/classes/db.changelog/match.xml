@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
+
+    <changeSet id="create_match" author="dimitra.pylioti">
+        <createTable tableName="match">
+            <column name="id" type="BIGINT">
+                <constraints primaryKey="true" primaryKeyName="MATCH_PK"/>
+            </column>
+            <column name="description" type="VARCHAR(255)"/>
+            <column name="match_date" type="DATE"/>
+            <column name="match_time" type="TIME"/>
+            <column name="team_a" type="VARCHAR(255)"/>
+            <column name="team_b" type="VARCHAR(255)"/>
+            <column name="sport" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="create_match_odd" author="dimitra.pylioti">
+        <createTable tableName="match_odds">
+            <column name="id" type="BIGINT">
+                <constraints primaryKey="true" primaryKeyName="MATCH_ODD_PK"/>
+            </column>
+            <column name="specifier" type="VARCHAR(255)"/>
+            <column name="odd" type="FLOAT"/>
+            <column name="match_id" type="BIGINT">
+                <constraints foreignKeyName="match_odd_fk" referencedTableName="match" referencedColumnNames="id"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="create_sequences" author="dimitra.pylioti">
+        <createSequence sequenceName="match_id_seq" incrementBy="1" startValue="1"/>
+        <createSequence sequenceName="match_odds_id_seq" incrementBy="1" startValue="1"/>
+    </changeSet>
+</databaseChangeLog>
